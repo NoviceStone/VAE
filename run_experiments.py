@@ -13,7 +13,7 @@ from utils import produce_z_values, visualize_latentspace
 # Device configuration
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-""" =================================== PART 1: EXPERIMENTS ON MNIST DATASET ====================================== """
+""" ======================================= PART 1: EXPERIMENTS ON MNIST DATASET ========================================== """
 
 # Build the data input pipeline
 batch_size = 100
@@ -28,14 +28,16 @@ results_dir = 'results/MNIST'
 model_2D = VAE(input_size=784, hidden_size=500, latent_size=2).to(device)
 model_2D.load_state_dict(torch.load(os.path.join(paras_dir, 'mnist_zdim2.pkl')))
 
-""" ======= Experiment 1: Visualization of Learned MNIST Manifold ======= """
+# ========================= Experiment 1: Visualization of Learned MNIST Manifold ========================= #
+
 z_values = produce_z_values(nrows=20, ncolumes=20)
 z_values = torch.from_numpy(z_values).float()
 with torch.no_grad():
     generated_imgs = model_2D.decode(z_values).view(-1, 1, 28, 28)
     save_image(generated_imgs, os.path.join(results_dir, 'MNIST-manifold.png'), nrow=20)
 
-""" ======= Experiment 2: Show Data(with Labels) Distribution in Learned 2D Latent Space ======= """
+# ============== Experiment 2: Show Data(with Labels) Distribution in Learned 2D Latent Space ============= #
+
 # step 1: set the number of datapoints in this experiment
 num_datapoints = 5000
 # step 2: fetch 5000 (image, label) pairs from test-dataloader
@@ -59,7 +61,9 @@ with torch.no_grad():
 # step 4: show all lantents with corresponding labels in 2D latent space
 visualize_latentspace(latents, labs, results_dir)
 
-""" ======= Experiment 3: generation and reconstruction with different z_dim ======= """
+# =================== Experiment 3: generation and reconstruction with different z_dim =================== #
+
+# recover trained models with different z_dim
 model_5D = VAE(input_size=784, hidden_size=500, latent_size=5).to(device)
 model_5D.load_state_dict(torch.load(os.path.join(paras_dir, 'mnist_zdim5.pkl')))
 model_10D = VAE(input_size=784, hidden_size=500, latent_size=10).to(device)
@@ -67,7 +71,7 @@ model_10D.load_state_dict(torch.load(os.path.join(paras_dir, 'mnist_zdim10.pkl')
 model_20D = VAE(input_size=784, hidden_size=500, latent_size=20).to(device)
 model_20D.load_state_dict(torch.load(os.path.join(paras_dir, 'mnist_zdim20.pkl')))
 
-with torch.no_grad():
+with torch.no_grad():    
     # Generation
     noise2 = torch.randn(100, 2).to(device)
     generated_imgs = model_2D.decode(noise2).view(-1, 1, 28, 28)
@@ -84,20 +88,28 @@ with torch.no_grad():
     # Reconstruction
     for batch_idx, (batch_x, _) in enumerate(test_loader):
         true_imgs = batch_x.view(-1, 1, 28, 28)
-        save_image(true_imgs, os.path.join(results_dir, 'true_imgs.png'), nrow=10)
+        save_image(true_imgs, os.path.join(results_dir, 'origin_imgs.png'), nrow=10)
         break
-    true_imgs = true_imgs.to(device).view(-1, 784)
-    reconst_imgs = model_2D(true_imgs)[-1].view(-1, 1, 28, 28)
+    x = true_imgs.to(device).view(-1, 784)
+    reconst_x = model_2D(x)[-1]
+    reconst_imgs = reconst_x.view(-1, 1, 28, 28)
+    reconst_loss1 = torch.sum((x - reconst_x).pow(2)) / len(x)
     save_image(reconst_imgs, os.path.join(results_dir, 'reconst_imgs-2D.png'), nrow=10)
-    reconst_imgs = model_5D(true_imgs)[-1].view(-1, 1, 28, 28)
+    reconst_x = model_5D(x)[-1]
+    reconst_imgs = reconst_x.view(-1, 1, 28, 28)
+    reconst_loss2 = torch.sum((x - reconst_x).pow(2)) / len(x)
     save_image(reconst_imgs, os.path.join(results_dir, 'reconst_imgs-5D.png'), nrow=10)
-    reconst_imgs = model_10D(true_imgs)[-1].view(-1, 1, 28, 28)
+    reconst_x = model_10D(x)[-1]
+    reconst_imgs = reconst_x.view(-1, 1, 28, 28)
+    reconst_loss3 = torch.sum((x - reconst_x).pow(2)) / len(x)
     save_image(reconst_imgs, os.path.join(results_dir, 'reconst_imgs-10D.png'), nrow=10)
-    reconst_imgs = model_20D(true_imgs)[-1].view(-1, 1, 28, 28)
+    reconst_x = model_20D(x)[-1]
+    reconst_imgs = reconst_x.view(-1, 1, 28, 28)
+    reconst_loss4 = torch.sum((x - reconst_x).pow(2)) / len(x)
     save_image(reconst_imgs, os.path.join(results_dir, 'reconst_imgs-20D.png'), nrow=10)
 
 
-""" ================================== PART 2: EXPERIMENTS ON FREYFACE DATASET ===================================== """
+""" ====================================== PART 2: EXPERIMENTS ON FREYFACE DATASET ========================================= """
 
 # Build the data input pipeline
 batch_size = 48
@@ -112,14 +124,17 @@ results_dir = 'results/FreyFace'
 model_2D = VAE(input_size=560, hidden_size=200, latent_size=2, data_type='real').to(device)
 model_2D.load_state_dict(torch.load(os.path.join(paras_dir, 'freyface_zdim2.pkl')))
 
-""" ======= Experiment 1: Visualization of Learned MNIST Manifold ======= """
+# ======================== Experiment 1: Visualization of Learned FreyFace Manifold ======================== #
+
 z_values = produce_z_values(nrows=10, ncolumes=14)
 z_values = torch.from_numpy(z_values).float()
 with torch.no_grad():
     generated_imgs = model_2D.decode(z_values)[0].view(-1, 1, 28, 20)
     save_image(generated_imgs, os.path.join(results_dir, 'FreyFace-manifold.png'), nrow=14)
 
-""" ======= Experiment 2: generation and reconstruction with different z_dim ======= """
+# ==================== Experiment 2: generation and reconstruction with different z_dim ==================== #
+
+# recover trained models with different z_dim
 model_5D = VAE(input_size=560, hidden_size=200, latent_size=5, data_type='real').to(device)
 model_5D.load_state_dict(torch.load(os.path.join(paras_dir, 'freyface_zdim5.pkl')))
 model_10D = VAE(input_size=560, hidden_size=200, latent_size=10, data_type='real').to(device)
@@ -144,22 +159,22 @@ with torch.no_grad():
     # Reconstruction
     for batch_idx, batch_x in enumerate(data_loader):
         true_imgs = batch_x.view(-1, 1, 28, 20)
-        save_image(true_imgs, os.path.join(results_dir, 'true_imgs.png'), nrow=8)
+        save_image(true_imgs, os.path.join(results_dir, 'origin_imgs.png'), nrow=8)
         break
-    inputs = true_imgs.to(device).view(-1, 560)
-    outputs_mean, _ = model_2D(inputs)[-1]
-    reconst_loss1 = torch.sum((inputs - outputs_mean).pow(2)) / len(inputs)
-    reconst_imgs = outputs_mean.view(-1, 1, 28, 20)
+    x = true_imgs.to(device).view(-1, 560)
+    reconst_x, _ = model_2D(inputs)[-1]
+    reconst_imgs = reconst_x.view(-1, 1, 28, 20)
+    reconst_loss1 = torch.sum((x - reconst_x).pow(2)) / len(x)
     save_image(reconst_imgs, os.path.join(results_dir, 'reconst_imgs-2D.png'), nrow=8)
-    outputs_mean, _ = model_5D(inputs)[-1]
-    reconst_loss2 = torch.sum((inputs - outputs_mean).pow(2)) / len(inputs)
-    reconst_imgs = outputs_mean.view(-1, 1, 28, 20)
+    reconst_x, _ = model_5D(x)[-1]
+    reconst_imgs = reconst_x.view(-1, 1, 28, 20)
+    reconst_loss2 = torch.sum((x - reconst_x).pow(2)) / len(x)
     save_image(reconst_imgs, os.path.join(results_dir, 'reconst_imgs-5D.png'), nrow=8)
-    outputs_mean, _ = model_10D(inputs)[-1]
-    reconst_loss3 = torch.sum((inputs - outputs_mean).pow(2)) / len(inputs)
-    reconst_imgs = outputs_mean.view(-1, 1, 28, 20)
+    reconst_x, _ = model_10D(x)[-1]
+    reconst_imgs = reconst_x.view(-1, 1, 28, 20)
+    reconst_loss3 = torch.sum((x - reconst_x).pow(2)) / len(x)
     save_image(reconst_imgs, os.path.join(results_dir, 'reconst_imgs-10D.png'), nrow=8)
-    outputs_mean, _ = model_20D(inputs)[-1]
-    reconst_loss4 = torch.sum((inputs - outputs_mean).pow(2)) / len(inputs)
-    reconst_imgs = outputs_mean.view(-1, 1, 28, 20)
+    reconst_x, _ = model_20D(x)[-1]
+    reconst_imgs = reconst_x.view(-1, 1, 28, 20)
+    reconst_loss4 = torch.sum((x - reconst_x).pow(2)) / len(x)
     save_image(reconst_imgs, os.path.join(results_dir, 'reconst_imgs-20D.png'), nrow=8)
