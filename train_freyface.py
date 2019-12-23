@@ -35,7 +35,7 @@ pi = torch.Tensor([math.pi])
 def compute_elbo(x, mean, log_var, out_mean, out_logvar):
     # ELBO(Evidence Lower Bound) is the objective of VAE, we train the model just to maximize the ELBO.
     
-    reconst_error = -0.5 * torch.sum(2 * pi.log() + out_logvar + (x - out_mean).pow(2) / out_logvar.exp())
+    reconst_error = -0.5 * torch.sum(torch.log(2*pi) + out_logvar + (x - out_mean).pow(2) / out_logvar.exp())
     # see Appendix B from VAE paper: "Kingma and Welling. Auto-Encoding Variational Bayes. ICLR-2014."
     # -KL[q(z|x)||p(z)] = 0.5 * sum(1 + log(sigma^2) - mu^2 - sigma^2)
     kl_divergence = -0.5 * torch.sum(1 + log_var - mean.pow(2) - log_var.exp())
