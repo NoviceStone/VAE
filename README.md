@@ -1,50 +1,52 @@
 # Variational Auto-Encoder
 Paper Reimplementation —— "D. P. Kingma and M. Welling. [Auto-Encoding Variational Bayes](https://arxiv.org/pdf/1312.6114). *ICLR*, 2014."
 
-This repository was originally created for my interest in ***Variational Auto-Encoders(VAEs)***. Although I have read the ***VAE*** pa-per for many times, I think it's still necessary to implement the generative model once by programming.  One the one hand, it can deepen my understanding of ***VAE's*** insights and meanwhile improve my proficiency in programming. On the other h-and, it can also be used as a reference when I try to implement other ***VAE-based*** models in the future. 
+This repository was originally created for my interest in ***Variational Auto-Encoders(VAEs)***. Although I have read the ***VAE*** paper for many times, I think it's still necessary to implement the generative model once by programming.  One the one hand, it can deepen my understanding of ***VAE's*** insights and improve my proficiency in programming. On the other hand, it can also be used as a reference when I try to implement other ***VAE-based*** models in the future. 
 
 ### Usage
-This repository includes many python script file, but only 3 of them can be run independently.
+In this repository, only three python script files can be run independently. 
 
-If you want to retrain the model on MNIST, you can use the following command:
+If you want to retrain a model on **MNIST** dataset, you can execute this command at the terminal:
 ```
 python train_mnist.py
+```
+If you want to retrain a model on **FreyFace** dataset, you can execute this command at the terminal:
+```
 python train_freyface.py
+```
+If you want to reuse trained models to do some other experiments(like generate or reconstruct images, plot manifold), this command might be helpful: 
+```
 python run_experiments.py
 ```
 
 ## Experiments
-Same as the original VAE paper, I trained the generative models on MNIST and FreyFace datasets.
+Same as the original VAE paper, I trained the generative models on **MNIST** and **FreyFace** datasets.
 
 
 
 ### Likelihood lower bound
-
-
+<table align='center'>
+  <tr>
+    <td><img src = 'results/MNIST/elbocurve-2D.png' height = '400px'>
+    <td><img src = 'results/FreyFace/elbocurve.png' height = '400px'>
+  </tr>
+  
 ### Generation
 <table align='center'>
-<tr align='center'>
-<td> Generated Process </td>
-<td> 2-D latent space </td>
-<td> 5-D latent space </td>
-<td> 10-D latent space </td>
-<td> 20-D latent space </td>
-</tr>
-<tr>
-<td><img src = 'results/MNIST/samples-gif.gif' height = '150px'>
-<td><img src = 'results/MNIST/gene_imgs-2D.png' height = '150px'>
-<td><img src = 'results/MNIST/gene_imgs-5D.png' height = '150px'>
-<td><img src = 'results/MNIST/gene_imgs-10D.png' height = '150px'>
-<td><img src = 'results/MNIST/gene_imgs-20D.png' height = '150px'>
-</tr>
-<tr>
-<td><img src = 'results/FreyFace/samples-gif.gif' height = '150px'>
-<td><img src = 'results/FreyFace/gene_imgs-2D.png' height = '150px'>
-<td><img src = 'results/FreyFace/gene_imgs-5D.png' height = '150px'>
-<td><img src = 'results/FreyFace/gene_imgs-10D.png' height = '150px'>
-<td><img src = 'results/FreyFace/gene_imgs-20D.png' height = '150px'>
-</tr>
+  <tr>
+    <td><img src = 'results/MNIST/gene_imgs-2D.png' height = '200px'>
+    <td><img src = 'results/MNIST/gene_imgs-5D.png' height = '200px'>
+    <td><img src = 'results/MNIST/gene_imgs-10D.png' height = '200px'>
+    <td><img src = 'results/MNIST/gene_imgs-20D.png' height = '200px'>
+  </tr>
+  <tr align='center'>
+    <td> 2-D latent space </td>
+    <td> 5-D latent space </td>
+    <td> 10-D latent space </td>
+    <td> 20-D latent space </td>
+  </tr>
 </table>
+<center> Figure 3: Random samples from learned generative models of MNIST for different dimensions of latent sapce </center>
 
 ### Reconstruction
 
