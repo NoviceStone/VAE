@@ -1,10 +1,10 @@
 # Variational Auto-Encoder
 Paper Reimplementation —— "D. P. Kingma and M. Welling. [Auto-Encoding Variational Bayes](https://arxiv.org/pdf/1312.6114). *ICLR*, 2014."
 
-This repository was originally created for my interest in ***Variational Auto-Encoders(VAEs)***. Although I have read the ***VAE*** paper for many times, I think it's still necessary to implement the generative model once by programming.  One the one hand, it can deepen my understanding of ***VAE's*** insights and improve my proficiency in programming. On the other hand, it can also be used as a reference when I try to implement other ***VAE-based*** models in the future. 
+This repository was originally created for my interest in ***Variational Auto-Encoder (VAE)***. Although I have read the ***VAE*** paper for many times, I think it's still necessary for me to implement the generative model once by programming.  On the one hand, it can not only deepen my understanding of ***VAE's*** nature but also improve my proficiency in programming. On the other hand, this repository can serve as a reference when I try to implement other ***VAE-based*** models in the future. 
 
 ### Usage
-In this repository, only three python script files can be run independently. 
+In this repository, only three python script files can be run independently. <br>
 
 If you want to retrain a model on **MNIST** dataset, you can execute this command at the terminal:
 ```
@@ -14,14 +14,14 @@ If you want to retrain a model on **FreyFace** dataset, you can execute this com
 ```
 python train_freyface.py
 ```
-If you want to reuse trained models to do some other experiments(like generate or reconstruct images, plot manifold), this command might be helpful: 
+If you want to reuse trained models to do some other experiments, you can execute this command at the terminal:
 ```
 python run_experiments.py
 ```
+Otherwise, if you want to customize some of the hyper-parameters while training the model, then you might need to spend a little more time changing the corresponding code lines in the python script files. 
 
 ## Experiments
 Same as the original VAE paper, I trained the generative models on **MNIST** and **FreyFace** datasets.
-
 
 
 ### Likelihood lower bound
@@ -30,6 +30,7 @@ Same as the original VAE paper, I trained the generative models on **MNIST** and
     <td><img src = 'results/MNIST/elbocurve-2D.png' height = '400px'>
     <td><img src = 'results/FreyFace/elbocurve.png' height = '400px'>
   </tr>
+</table>
   
 ### Generation
 <table align='center'>
@@ -46,7 +47,7 @@ Same as the original VAE paper, I trained the generative models on **MNIST** and
     <td> 20-D latent space </td>
   </tr>
 </table>
-<center> Figure 3: Random samples from learned generative models of MNIST for different dimensions of latent sapce </center>
+<center>Figure 3: Random samples from learned generative models of MNIST for different dimensions of latent sapce</center>
 
 ### Reconstruction
 
