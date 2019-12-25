@@ -4,7 +4,7 @@ Paper Reimplementation —— "D. P. Kingma and M. Welling. [Auto-Encoding Varia
 This repository was originally created out of my interest in ***Variational Auto-Encoder (VAE)***. Although I have read the VAE paper for many times, I think it is still necessary for me to implement the generative model once by programming.  On the one hand, it can not only deepen my understanding of VAE's nature but also improve my proficiency in programming. On the other hand, this repository can serve as a reference when I try to implement other VAE-based models in the future.
 
 ## Usage
-In this repository, only three python script files can be run independently. <br>
+In this repository, only three python script files can be run independently.
 
 If you want to retrain a model on **MNIST** dataset, you can execute this command at the terminal:
 ```
@@ -46,13 +46,13 @@ Same as the original VAE paper, I trained the generative models on **MNIST** and
 
 ----------------------------------------------------------------------------------------------------------------------
 <table align='center'>
-  <tr>
-    <tr align='center'>
+  <tr align='center'>
     <td> 2-D latent space </td>
     <td> 5-D latent space </td>
     <td> 10-D latent space </td>
     <td> 20-D latent space </td>
   </tr>
+  <tr>
     <td><img src = 'results/FreyFace/gene_imgs-2D.png' height = '200px'>
     <td><img src = 'results/FreyFace/gene_imgs-5D.png' height = '200px'>
     <td><img src = 'results/FreyFace/gene_imgs-10D.png' height = '200px'>
@@ -99,7 +99,7 @@ Same as the original VAE paper, I trained the generative models on **MNIST** and
     <td><img src = 'results/FreyFace/reconst_imgs-20D.png' height = '150px'>
   </tr>
   <tr align='center'>
-    <td> reconst_loss(MSE) </td>
+    <td> reconst_error(MSE) </td>
     <td> 2.2650 </td>
     <td> 1.2810 </td>
     <td> 0.6702 </td>
@@ -108,6 +108,8 @@ Same as the original VAE paper, I trained the generative models on **MNIST** and
 </table>
 
 -------------------------------------------------------------------------------------------------------------------------
+***My Insights***:
+
 ### Manifold
 
 <table align='center'>
@@ -132,7 +134,7 @@ scipy          version-1.3.2
 ```
 
 ## References 
-[1]  D. P. Kingma and M. Welling. Auto-Encoding Variational Bayes. *ICLR*, 2014.
+[1]  D. P. Kingma and M. Welling. [Auto-Encoding Variational Bayes](https://arxiv.org/pdf/1312.6114). *ICLR*, 2014.
 
 ## Acknowledgements
 The following two projects have given me great inspiration as I write the code, and I would like to express my gratitude. <br>
